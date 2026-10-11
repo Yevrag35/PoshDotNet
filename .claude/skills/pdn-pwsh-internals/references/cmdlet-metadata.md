@@ -18,8 +18,25 @@ The engine builds a command's parameter metadata the first time it needs it, suc
 
 ## Positions and setters
 
-- **Two parameters with the same `Position` in one set** (row 5): `Get-Command -Syntax` silently drops one, showing `Test-DupPosition [[-Second] <string>] [<CommonParameters>]`, and a positional call throws `ParameterBindingException`: "Cannot bind positional parameters because no names were given." Calls by name weren't measured.
+- **Two parameters with the same `Position` in one set** (row 5): `Get-Command -Syntax` silently drops one, showing `Test-DupPosition [[-Second] <string>] [<CommonParameters>]`, and a positional call throws `ParameterBindingException`: "Cannot bind positional parameters because no names were given." The error ID is `AmbiguousPositionalParameterNoName`.
+- **Which positions clash** (measured 2026-10-11, same versions, kept in `tests/repro/PDN1005/`):
+  - A call that names both parameters binds, and so does a positional argument once the call names one of the two: `-First a b` binds `b` to `Second`.
+  - Two parameters in the same named set clash. A clash in a set other than the default fails a positional call that the default set could take, unless a named argument has already ruled that set out.
+  - An empty `ParameterSetName`, and `__AllParameterSets` in any letter case, mean every set, so such a parameter clashes with one that names no set. `ByName` and `byname` are two sets, and their parameters don't clash.
+  - A parameter that names no set and one in a named set, at the same position, don't clash. One positional argument binds to both, and the call runs in the named set. A second positional argument then fails with "A positional parameter cannot be found that accepts argument 'two'." `Get-Command -Syntax` shows only one of the two.
+  - A `ValueFromRemainingArguments` parameter at the same position doesn't clash: the other parameter takes the first argument, and it takes the rest.
+  - One parameter at the same position in two sets doesn't clash.
+  - Two parameters at `Position = -1` clash. `Get-Command -Syntax` throws `ArgumentOutOfRangeException` for a cmdlet with even one negative position, though a positional call to that cmdlet binds. `Position = int.MinValue` means no position.
 - **`[Parameter]` on a get-only property** (row 6): the parameter appears in the syntax, and passing it throws `ParameterBindingException`: "Cannot bind parameter 'Ro' to the target. Exception setting "Ro": "Expression must be writeable ..."". Nothing fails until a caller passes it.
+
+## Which members are parameters
+
+Measured 2026-10-11, same versions, with the cases in `tests/repro/PDN1005/`.
+
+- Public instance properties and fields with their own `[Parameter]` are parameters, including those a base class declares. An `internal` or `static` property with `[Parameter]` isn't one.
+- A derived property with the same name and type hides the base class's parameter, whether it's `new` or an `override`. An override without its own `[Parameter]` isn't a parameter, and one with `[Parameter]` takes that attribute's settings.
+- A derived property of another type, such as `new int First` over `string First`, doesn't hide the base parameter, and neither does a derived field over a base field. Both base parameters stay.
+- PowerShell 7.4's source reads a class's `[Cmdlet]` with `inherit: false` and skips a class without a public parameterless constructor. Neither was measured.
 
 ## Parameter sets
 
@@ -73,6 +90,9 @@ Checked 2026-10-10 by resolving each type or member in each edition.
 ## In PoshDotNet
 
 - Rows 2 to 6 fail every time the affected command or parameter is used, and rows 9 and 10 misbehave every time the code path runs, so those rules can default to Error. The others depend on what a caller passes or are silent, so they start as Warnings unless a later measurement shows a guaranteed failure.
+- Row 5's rule, PDN1005, groups positions by set, compares set names case-sensitively, and treats "every set" as a set of its own. So two parameters clash only in the same named set, or when neither names a set. It skips `ValueFromRemainingArguments` parameters and `Position = int.MinValue`.
+- A parameter that names no set beside one in a named set, at the same position, binds one argument to both without an error. That isn't a guaranteed failure, so it can't be an Error.
+- The cmdlet model reads parameters by the rules in "Which members are parameters". Where a pairing wasn't measured, such as a derived field over a base property, it treats the base member as hidden, which can drop a parameter but never adds a diagnostic.
 - Row 3 differs between the editions, so its rule has to judge each compilation against the engine it references: a `net48` build against Windows PowerShell 5.1 is fine, and a PowerShell 7 build isn't.
 - Row 11 means a generated "was this parameter bound for this record" check can't read `BoundParameters` for pipeline parameters. The engine resets those properties between records, so tracking has to tell a reset from a real bind.
 - Rows 12 and 13 together mean a rule can tell, from the attribute and the calls alone, when `-WhatIf` would silently do nothing or not exist.

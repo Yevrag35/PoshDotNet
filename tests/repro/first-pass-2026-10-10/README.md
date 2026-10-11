@@ -22,4 +22,4 @@ dotnet run PartialAttrs.cs
 
 The `AsyncVoid` case in Windows PowerShell 5.1 printed "process survived" and then exited with code 2. That exit code is the observed result, not a failure of the script.
 
-This pass runs many cases from one source file. Milestone M0 replaces it with one minimal cmdlet per rule and a Pester test that asserts each failure in both editions; `.claude/rules/repro-corpus.md` covers how.
+This pass runs many cases from one source file. Milestone M0 replaces it with one minimal cmdlet per rule and a Pester test that asserts each failure in both editions; `.claude/rules/repro-corpus.md` covers how. Each case moves to its rule's folder when the rule is written: the `DupPosition` case now lives in `../PDN1005/`.

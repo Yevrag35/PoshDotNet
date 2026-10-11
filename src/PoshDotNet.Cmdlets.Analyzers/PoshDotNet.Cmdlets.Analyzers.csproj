@@ -35,6 +35,11 @@
 		<AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
 	</ItemGroup>
 
+	<!-- The tests read the cmdlet model and the descriptors, which stay internal. -->
+	<ItemGroup>
+		<InternalsVisibleTo Include="PoshDotNet.Cmdlets.Analyzers.Tests" />
+	</ItemGroup>
+
 	<Target Name="AddAnalyzerToPackage">
 		<ItemGroup>
 			<TfmSpecificPackageFile Include="$(TargetPath)" PackagePath="analyzers/dotnet/cs" />

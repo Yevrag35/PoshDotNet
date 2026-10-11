@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working in this repository.
 
 PoshDotNet is a family of .NET tools for authors of binary PowerShell modules. Its first package, `PoshDotNet.Cmdlets.Analyzers`, will hold Roslyn analyzers, code fixes, and later a source generator that report cmdlet mistakes at compile time. These are mistakes that PowerShell otherwise reveals only at import, at bind time, in the middle of a pipeline, or never. The modules it checks target Windows PowerShell 5.1, PowerShell 7, or both.
 
-As of 2026-10-11 the project is in planning, and no rules exist yet. `PoshDotNet.slnx` holds the empty analyzer project and its test project, whose smoke tests compile a cmdlet against each engine's reference assemblies, and `tests/repro/` holds the first repro pass.
+As of 2026-10-11 the project is in milestone M1, and nothing has been released. The analyzer project holds the shared cmdlet model and the first rule, PDN1005. Its test project compiles each case against every engine's reference assemblies, and `tests/repro/` holds the first repro pass and PDN1005's Pester cases.
 
 ## The plan
 
