@@ -1,10 +1,11 @@
 <Project>
 
-	<!-- Authorship and repository metadata shared by every assembly. -->
+	<!-- Authorship, license, and repository metadata shared by every assembly. -->
 	<PropertyGroup>
 		<Authors>Mike Garvey</Authors>
 		<Company>Yevrag35, LLC.</Company>
-		<Copyright>Copyright © 2026 Yevrag35, LLC. All rights reserved.</Copyright>
+		<Copyright>Copyright (c) 2026 Yevrag35, LLC., Mike Garvey, and Contributors. All rights reserved.</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/Yevrag35/PoshDotNet</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Yevrag35/PoshDotNet.git</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
