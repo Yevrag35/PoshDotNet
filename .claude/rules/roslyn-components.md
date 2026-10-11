@@ -8,7 +8,7 @@ paths:
 
 # Roslyn components
 
-Adapted on 2026-10-10 from the conventions of Realta's analyzer and generator projects. No Roslyn project exists here yet; follow this when the first one is created.
+Adapted on 2026-10-10 from the conventions of Realta's analyzer and generator projects. `src/PoshDotNet.Cmdlets.Analyzers/` follows it; follow it in every Roslyn project you add.
 
 ## Target netstandard2.0
 
@@ -46,6 +46,6 @@ Analyzers, code fixes, and generators load into the compiler and the IDE as .NET
 ## Tests
 
 - Test with the Microsoft.CodeAnalysis.Testing packages: `Microsoft.CodeAnalysis.CSharp.Analyzer.Testing`, `.CodeFix.Testing`, and `.SourceGenerators.Testing`. Version 1.1.4 was current on 2026-10-10, and their development has moved into the dotnet/roslyn repository.
-- Compile test sources against the reference assemblies of each engine a rule cares about, so a rule that behaves differently per edition is tested in both.
+- Compile test sources against the reference assemblies of each engine a rule cares about, so a rule that behaves differently per edition is tested in both. `EngineReferences` in the test project gives the three sets: `WindowsPowerShell` (net48), `PowerShellStandard` (netstandard2.0) and `PowerShell7` (net10.0). The engine packages' versions live in `Directory.Packages.props`.
 - Give every rule positive and negative cases, and ship them with the rule.
 - Test generator caching: run the driver twice with step tracking on, and assert that unchanged inputs come back `Cached` or `Unchanged`.

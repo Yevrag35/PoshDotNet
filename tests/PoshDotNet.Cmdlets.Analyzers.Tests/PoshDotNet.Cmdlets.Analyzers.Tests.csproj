@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!--
+		xunit.v3 runs the tests on Microsoft.Testing.Platform, so the project builds an executable, and the root global.json
+		opts `dotnet test` into that platform. Don't add Microsoft.NET.Test.Sdk or xunit.runner.visualstudio.
+	-->
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Using Include="Xunit" />
+	</ItemGroup>
+
+	<!-- Workspaces pins the compiler that the tests run on to the analyzers' own Microsoft.CodeAnalysis.CSharp version. -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+		<PackageReference Include="xunit.v3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\PoshDotNet.Cmdlets.Analyzers\PoshDotNet.Cmdlets.Analyzers.csproj" />
+	</ItemGroup>
+
+	<!--
+		EngineReferences has Microsoft.CodeAnalysis.Testing download the engines' reference packages when a test needs them.
+		Their versions live in Directory.Packages.props, and this target hands them to it as assembly metadata.
+	-->
+	<Target Name="AddEnginePackageVersions" BeforeTargets="GetAssemblyAttributes">
+		<ItemGroup>
+			<_EnginePackageVersion Include="@(PackageVersion)" Condition="'%(Identity)' == 'Microsoft.PowerShell.5.1.ReferenceAssemblies' Or '%(Identity)' == 'PowerShellStandard.Library' Or '%(Identity)' == 'System.Management.Automation'" />
+			<AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+				<_Parameter1>%(_EnginePackageVersion.Identity)</_Parameter1>
+				<_Parameter2>%(_EnginePackageVersion.Version)</_Parameter2>
+			</AssemblyAttribute>
+		</ItemGroup>
+	</Target>
+
+</Project>

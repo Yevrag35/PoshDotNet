@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- The compiler and the IDE load analyzers as .NET Standard 2.0 components. -->
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<IsRoslynComponent>true</IsRoslynComponent>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+	</PropertyGroup>
+
+	<!--
+		The package holds the analyzer under analyzers/dotnet/cs and nothing under lib/, so it never adds a DLL to a consumer's
+		module, and it declares no dependencies.
+	-->
+	<PropertyGroup>
+		<PackageId>PoshDotNet.Cmdlets.Analyzers</PackageId>
+		<Description>Roslyn analyzers that report mistakes in C# PowerShell cmdlets at compile time, for modules that target Windows PowerShell 5.1, PowerShell 7, or both.</Description>
+		<PackageTags>PowerShell;cmdlet;binary-module;analyzers;Roslyn</PackageTags>
+		<DevelopmentDependency>true</DevelopmentDependency>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);AddAnalyzerToPackage</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+		<PackageReference Include="PolySharp">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Required by RS2008 once a DiagnosticAnalyzer declares a DiagnosticDescriptor under EnforceExtendedAnalyzerRules. -->
+		<AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+		<AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
+	</ItemGroup>
+
+	<Target Name="AddAnalyzerToPackage">
+		<ItemGroup>
+			<TfmSpecificPackageFile Include="$(TargetPath)" PackagePath="analyzers/dotnet/cs" />
+		</ItemGroup>
+	</Target>
+
+</Project>

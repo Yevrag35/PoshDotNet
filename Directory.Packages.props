@@ -1,0 +1,26 @@
+<Project>
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+	<!--
+		Microsoft.CodeAnalysis.CSharp is the oldest compiler a consumer can build with. 4.14.0 is the compiler in Visual Studio
+		2022 17.14 and the .NET SDK 9.0.300, so raise it only on purpose. Workspaces stays at the same version, so the tests
+		run on that compiler too.
+	-->
+	<ItemGroup>
+		<PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+		<PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" Version="1.1.4" />
+		<PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" />
+		<PackageVersion Include="PolySharp" Version="1.16.0" />
+		<PackageVersion Include="xunit.v3" Version="4.0.2" />
+	</ItemGroup>
+	<!--
+		The engines' reference assemblies, which the analyzer tests compile cmdlet code against. Microsoft.CodeAnalysis.Testing
+		downloads them when a test needs them, so no project references them. The test project passes these versions to it.
+	-->
+	<ItemGroup>
+		<PackageVersion Include="Microsoft.PowerShell.5.1.ReferenceAssemblies" Version="1.0.0" />
+		<PackageVersion Include="PowerShellStandard.Library" Version="5.1.1" />
+		<PackageVersion Include="System.Management.Automation" Version="7.6.6" />
+	</ItemGroup>
+</Project>

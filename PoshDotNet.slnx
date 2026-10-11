@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path="CLAUDE.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Cmdlets/">
+    <Project Path="src/PoshDotNet.Cmdlets.Analyzers/PoshDotNet.Cmdlets.Analyzers.csproj" />
+    <Project Path="tests/PoshDotNet.Cmdlets.Analyzers.Tests/PoshDotNet.Cmdlets.Analyzers.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working in this repository.
 
 PoshDotNet is a family of .NET tools for authors of binary PowerShell modules. Its first package, `PoshDotNet.Cmdlets.Analyzers`, will hold Roslyn analyzers, code fixes, and later a source generator that report cmdlet mistakes at compile time. These are mistakes that PowerShell otherwise reveals only at import, at bind time, in the middle of a pipeline, or never. The modules it checks target Windows PowerShell 5.1, PowerShell 7, or both.
 
-As of 2026-10-10 the project is in planning. No .NET projects exist yet: the repository holds this file, `.claude/`, the repo-wide config files, and the first repro pass in `tests/repro/`.
+As of 2026-10-11 the project is in planning, and no rules exist yet. `PoshDotNet.slnx` holds the empty analyzer project and its test project, whose smoke tests compile a cmdlet against each engine's reference assemblies, and `tests/repro/` holds the first repro pass.
 
 ## The plan
 
@@ -20,7 +20,7 @@ Two identifiers are settled and safe to use without reading the doc: the package
 
 ## Repository layout
 
-Of the folders below, only `tests/repro/` exists. Create the others with the first project, not before.
+Of the folders below, `src/PoshDotNet.Cmdlets.Analyzers/`, `tests/PoshDotNet.Cmdlets.Analyzers.Tests/`, and `tests/repro/` exist. Create each of the others with its first project, not before.
 
 ```text
 PoshDotNet/

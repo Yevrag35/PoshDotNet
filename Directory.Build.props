@@ -1,0 +1,27 @@
+<Project>
+
+	<!-- Authorship and repository metadata shared by every assembly. -->
+	<PropertyGroup>
+		<Authors>Mike Garvey</Authors>
+		<Company>Yevrag35, LLC.</Company>
+		<Copyright>Copyright © 2026 Yevrag35, LLC. All rights reserved.</Copyright>
+		<PackageProjectUrl>https://github.com/Yevrag35/PoshDotNet</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Yevrag35/PoshDotNet.git</RepositoryUrl>
+		<RepositoryType>Git</RepositoryType>
+	</PropertyGroup>
+
+	<!-- AssemblyVersion and FileVersion reuse Version verbatim so the SDK does not pad them to four parts. -->
+	<PropertyGroup>
+		<Version>0.1.0</Version>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<FileVersion>$(Version)</FileVersion>
+	</PropertyGroup>
+
+	<!-- Compiler settings shared by every project. -->
+	<PropertyGroup>
+		<LangVersion>14</LangVersion>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+</Project>
