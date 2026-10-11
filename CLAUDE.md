@@ -11,7 +11,7 @@ As of 2026-10-11 the project is in planning, and no rules exist yet. `PoshDotNet
 **[PoshDotNet.Cmdlets.Analyzers — Draft Plan](https://claude.ai/code/artifact/fd9de08f-37fe-4c90-bcdc-cb1e1c532d45)** is the source of truth for this project's scope and decisions.
 
 - Read it before you plan, design, or build anything here, and before you answer a question about what the project will do. It holds the problem statement, the analyzer catalog (with the runtime behavior behind each rule, reproduced on 2026-10-10), the diagnostic ID blocks, what the generator will and won't own, the milestones M0 to M6 with their gates, and the open questions.
-- It's a Claude Doc, not a web page. Read and edit it with the Claude Docs tools, loading the docs skill first. Never fetch it with WebFetch or curl.
+- It's a Claude Doc, not a web page. Read and edit it with the Claude Docs tools, loading the docs skill and the `claude-docs-api` skill first. Never fetch it with WebFetch or curl.
 - It lives in Mike's claude.ai account and is private. Don't link it from `README.md` or from anything else that ships.
 - Record decisions in the doc, in their section or under Open questions, in the same session that makes them. Don't copy the catalog, the ID table, or the milestones into this file, so there's only one copy to keep current.
 - When a milestone or a rule ships, update the doc to match in the same change.
@@ -60,6 +60,7 @@ These conventions come from Mike's ListFunctions and Realta repositories:
 | `pdn-pwsh-internals` | project skill | Measured PowerShell engine behavior; see PowerShell behavior below |
 | `csharp-xml-docs` | personal skill | Writing or editing XML documentation comments |
 | `multi-session-plans` | personal skill | Drafting or updating a `.ideas/` plan |
+| `claude-docs-api` | personal skill | Reading and editing Claude Docs, including a map of the plan doc's blocks |
 
 Personal skills live in `~/.claude/skills/` on Mike's machine, not in this repository.
 
